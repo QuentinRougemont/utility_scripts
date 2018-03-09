@@ -14,20 +14,18 @@ then
     exit
 fi
 
-#pop_folder="pop_map" #folder containing the list of all sampling site (or populations)
-
 outfolder="00.fst_vcftools"
 mkdir "$outfolder"
 
 #fst vrom vcftools
-for i in $(echo "$pop_folder"/pop.* |sed 's/pop_map\///g' ) ; do 
-    for j in  $(echo "$pop_folder"/pop.* |sed 's/pop_map\///g') ; 
-	do
+for i in $(echo "$pop_folder"/* |sed 's/$pop_folder\///g' ) ; do 
+    for j in  $(echo "$pop_folder"/* |sed 's/$pop_folder\///g') ; 
+    do
             if [ "$i" != "$j" ] ; then
                 if [[ "$i" > "$j" ]] ; then 
-        	vcftools --vcf $INPUT --weir-fst-pop "$pop_folder"/$i --weir-fst-pop "$pop_folder"/$j --out "$outfolder"/fst."$i".vs."$j" ; 
+                    vcftools --vcf $INPUT --weir-fst-pop "$pop_folder"/$i --weir-fst-pop "$pop_folder"/$j --out "$outfolder"/fst."$i".vs."$j" ; 
                 fi
-            fi	
+            fi
     done ; 
 done
 
