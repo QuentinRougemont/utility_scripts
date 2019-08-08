@@ -11,7 +11,8 @@ fi
 
 vcftools --vcf "$INPUT" --012
 
-cut -f 2-  out.012  | sed -e 's/2/22/g' -e 's/-1/NA/g' -e 's/1/12/g' -e 's/0/11/g' > out.tmp
+cut -f 2-  out.012 |\
+	sed -e 's/2/22/g' -e 's/-1/NA/g' -e 's/1/12/g' -e 's/0/11/g' > out.tmp
 
 sed 's/_/\t/g' out.012.indv |awk '{print $1}' > pop
 
