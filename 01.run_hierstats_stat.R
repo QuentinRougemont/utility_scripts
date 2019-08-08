@@ -1,3 +1,11 @@
+
+
+#extracting very basic stats with hierfstats
+#input file => hierstat input file
+
+if("hierfstat" %in% rownames(installed.packages()) == FALSE)
+	{install.packages("hierfstat", repos="https://cloud.r-project.org") }
+
 library(hierfstat)
 
 data = read.table("hierfstat.data.txt", header=T, sep="\t")
