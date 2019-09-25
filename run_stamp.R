@@ -7,7 +7,7 @@ vcf <- argv[1] #vcffile to be processed
 pop <- argv[2] #pop
 
 if (argv[1]=="-h" || length(argv)==0){
-cat("run as:\n./run_stamp.R \"vcffile\" \n\n" )
+cat("run as:\n./run_stamp.R \"vcffile\"\"pop\"\nwith \"pop\" a vector of the population name of each individual\n" )
 }else{
 
 if("vcfR" %in% rownames(installed.packages()) == FALSE)
