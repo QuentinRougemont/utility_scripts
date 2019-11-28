@@ -38,7 +38,7 @@ else
 fi
 
 #ARGUEMNTS
-ref=/mnt/SCRATCH/quentin/quentin/03-genome_placed/ICSASG_v2.placed.fa #$1
+ref=your_genome.fasta #should be index (samtools faidx)
 nt=8
 
 samples1=($(ls ${INFOLDER1}/*.saf.idx))

@@ -10,8 +10,6 @@
 ##SBATCH --mail-user=YOUREMAIL
 #SBATCH --time=09:00:00
 #SBATCH --mem=100G
-#index your genome first:
-#samtools faidx genome.fas
 #cd $SLURM_SUBMIT_DIR
 
 module load angsd
@@ -36,7 +34,7 @@ else
 fi
 
 #ARGUEMNTS
-ref=/mnt/SCRATCH/quentin/quentin/03-genome_placed/ICSASG_v2.placed.fa #$1
+ref=your_genome.fasta #should be index (samtools faidx)
 nt=8
 
 samples1=($(ls ${INFOLDER1}/*.saf.idx))
