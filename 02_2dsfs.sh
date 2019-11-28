@@ -41,14 +41,14 @@ fi
 ref=your_genome.fasta #should be index (samtools faidx)
 nt=8
 
-samples1=($(ls ${INFOLDER1}/*.saf.idx))
+samples1=($(ls ${INFOLDER1}/*.${CHROMO}.saf.idx))
 if [ ${#samples1[@]} -eq 0 ]; then
 	echo 'No "saf" files found.'
 	exit 1
 fi
 echo "samples pop1 are: $samples1"
 
-samples2=($(ls ${INFOLDER2}/*.saf.idx))
+samples2=($(ls ${INFOLDER2}/*.${CHROMO}.saf.idx))
 if [ ${#samples2[@]} -eq 0 ]; then
 	echo 'No "saf" files found.'
 	exit 1
@@ -56,12 +56,13 @@ fi
 echo "samples pop2 are: $samples2"
 
 pop1=${samples1[${i}]}
+pop1=$(basename ${pop1} )
 pop1=$(basename ${pop1%%.*})
 echo $pop1
 pop2=${samples2[${j}]}
 echo $pop2
+pop2=$(basename ${pop2} )
 pop2=$(basename ${pop2%%.*} )
-#pop2=$(basename ${pop2} )
 
 echo "Running ANGSD 2dSFS "
 echo "population 1 is $samples1"
