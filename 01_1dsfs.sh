@@ -37,7 +37,7 @@ fi
 ref=your_genome.fasta #should be index (samtools faidx)
 nt=8
 
-samples1=($(ls ${INFOLDER1}/*.saf.idx))
+samples1=($(ls ${INFOLDER1}/*.${CHROMO}.saf.idx))
 if [ ${#samples1[@]} -eq 0 ]; then
 	echo 'No "saf" files found.'
 	exit 1
@@ -45,6 +45,7 @@ fi
 echo "samples are: $samples1"
 
 pop=${samples1[${i}]}
+pop=$(basename ${pop})
 pop=$(basename ${pop%%.*})
 
 echo "running ANGSD to produce 1D SFS now"
