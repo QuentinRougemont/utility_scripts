@@ -55,6 +55,13 @@ if [ ${#samples2[@]} -eq 0 ]; then
 fi
 echo "samples pop2 are: $samples2"
 
+#FOLDER
+if [ ! -d "$OUTFOLDER"  ];
+then
+ echo "creating output dir"
+ mkdir "$OUTFOLDER"
+fi
+
 pop1=${samples1[${i}]}
 pop1=$(basename ${pop1} )
 pop1=$(basename ${pop1%%.*})
@@ -66,7 +73,7 @@ pop2=$(basename ${pop2%%.*} )
 
 echo "Running ANGSD 2dSFS "
 echo "population 1 is $samples1"
-echo "pôpulation 2 is $samples2"
+echo "population 2 is $samples2"
 
 realSFS "$samples1" \
 	"$samples2" \
