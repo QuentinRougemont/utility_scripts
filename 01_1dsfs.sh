@@ -53,4 +53,4 @@ echo "running ANGSD on sample $pop"
 
 realSFS "$samples1" \
 	-r ${CHROMO} \
-	-P $nt   > "$OUTFOLDER"/${pop}.${CHROMO}.2dsfs 
+	-P $nt   > "$OUTFOLDER"/${pop}.${CHROMO}.1dsfs 
