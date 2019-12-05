@@ -33,7 +33,7 @@ else
 fi
 
 #ARGUEMNTS
-ref=/net/cn-1/mnt/SCRATCH/quentin/quentin/03-genome_placed/ICSASG_v2.placed.fa #$1
+ref=your_genome.fasta
 bamlistlist="bamlist.list"
 #check if it exists:
 bamlist=$(cat ${bamlistlist})
