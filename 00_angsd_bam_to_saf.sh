@@ -58,7 +58,7 @@ fi
 
 #RUN ANGSD
 echo "running ANGSD now "
-if [ $FOLDED=="FOLDED" ];
+if [[ $FOLDED == "FOLDED" ]];
 then
    echo "running ANGSD with $FOLDED version"
    angsd -b ${bamlist} -gl 1 \
