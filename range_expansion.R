@@ -32,7 +32,8 @@ convert <- paste("vcftools --vcf",vcf,"--012", sep=" ")
 system(convert)                                                 
 paste_file=("paste out.012.indv out.012 |sed 's/\t/,/g' |sed 's/-1/?/g'  >01.data/data.snapp")
 system(paste_file)                                              
-                                                                
+data <- "01.data/data.snapp"
+
 #if BED:
 #argv <- commandArgs(T)
 #data <- argv[1] #input bed file
@@ -48,3 +49,4 @@ psi <- get.all.psi(pop)
 
 res <- run.regions(region=region, pop=pop, psi=psi, xlen=10,ylen=20)
 
+summary(res)
