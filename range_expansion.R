@@ -20,15 +20,21 @@ colnames(coord)<-c("id","pop","longitude","latitude","region")
 region <- list( unique(coord$region))
 
 
-#if SNAPP:
-data <- ("01.data/data.snapp")
+#if SNAPP
+#create SNAPP input from vcffile
+argv <- commandsArgs(T)                                         
+vcf <- argv[1]                                                  
+convert <- paste("vcftools --vcf",vcf,"--012", sep=" ")         
+system(convert)                                                 
+paste_file=("paste out.012.indv out.012 |sed 's/\t/,/g' |sed 's/-1/?/g'  >01.data/data.snapp")
+system(paste_file)                                              
+                                                                
 #if BED:
-argv <- commandArgs(T)
-data <- argv[1] #input bed file
-data <- load.plink.file(data)
+#argv <- commandArgs(T)
+#data <- argv[1] #input bed file
+#data <- load.plink.file(data)
 
 ploidy <- 2
-
 raw.data <- load.data.snapp(data,
                             coords,
                             sep=',', ploidy=ploidy)                                
