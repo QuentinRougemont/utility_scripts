@@ -13,13 +13,19 @@ options(unzip = "unzip")
 devtools::install_github("BenjaminPeter/rangeExpansion", ref="package")
 library(rangeExpansion)
 
-data <- ("01.data/data.snapp")
+#load coord and extract region
 coords <- ("01.data/coords_file.csv")
-
 coord<-read.csv("01.data/coords_file.csv",header=T)
-colnames(coord)<-c("pop","longitude","latitude","region")
-
+colnames(coord)<-c("id","pop","longitude","latitude","region")
 region <- list( unique(coord$region))
+
+
+#if SNAPP:
+data <- ("01.data/data.snapp")
+#if BED:
+argv <- commandArgs(T)
+data <- argv[1] #input bed file
+data <- load.plink.file(data)
 
 ploidy <- 2
 
@@ -31,3 +37,4 @@ pop <- make.pop(raw.data, ploidy)
 psi <- get.all.psi(pop)
 
 res <- run.regions(region=region, pop=pop, psi=psi, xlen=10,ylen=20)
+
