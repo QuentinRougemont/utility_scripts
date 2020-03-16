@@ -1,5 +1,9 @@
 #!/usr/bin/Rscript
 #QR - 22-12-17
+#purpose: calculate psi index from Peter & Slatkin Evolution paper
+#input file = vcffile 
+#input file = geographic coordinates of every individuals (ind_id\tpop_id\t\longitute\latitude\strata)
+#can be easily modified to read bedfile (see below)
 
 if("geosphere" %in% rownames(installed.packages()) == FALSE) {install.packages("geosphere", repos="https://cloud.r-project.org") }
 if("rworldmap" %in% rownames(installed.packages()) == FALSE) {install.packages("rworldmap", repos="https://cloud.r-project.org") }
