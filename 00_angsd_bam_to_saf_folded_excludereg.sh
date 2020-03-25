@@ -57,7 +57,7 @@ pop=${bamlist%%.*}
 if [ -f ${pop} ]; then
     continue
 fi
-
+ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 / 2}' )
 #RUN ANGSD
 echo "running ANGSD now "
 if [ $FOLDED=="FOLDED" ];
@@ -68,11 +68,12 @@ then
 	-out ${OUTFOLDER}/${pop}.${CHROMO} \
 	-dosaf 1 \
 	-remove_bads 1 -only_proper_pairs 1 -trim 0 \
-	-minInd 8  \
+	-minInd ${ind}  \
 	-rf ${REGION} \
-	-doCounts 1 -setMinDepth 4 -setMaxDepth 100 \
+	-doCounts 1 -setMinDepth 40 -setMaxDepth 400 \
 	-minMapQ 30 \
 	-minQ 20 \
+	-baq 1 -C 50\
 	-uniqueOnly 1 \
 	-fold 1 \
 	-P ${nt}
@@ -86,11 +87,12 @@ else
 	-out ${OUTFOLDER}/${pop}.${CHROMO} \
 	-dosaf 1 \
 	-remove_bads 1 -only_proper_pairs 1 -trim 0 \
-	-minInd 8  \
+	-minInd ${ind}  \
 	-r ${CHROMO} \
-	-doCounts 1 -setMinDepth 4 -setMaxDepth 100 \
+	-doCounts 1 -setMinDepth 40 -setMaxDepth 400 \
 	-minMapQ 30 \
 	-minQ 20 \
+	-baq 1 -C 50\
 	-uniqueOnly 1 \
 	-P ${nt}
 	#-doHWE 1 \
