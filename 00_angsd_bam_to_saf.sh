@@ -12,7 +12,7 @@
 #SBATCH --mem=10G
 
 module load angsd
-#date : 26-11-19
+#date : 01-04-20
 #purpose: script to create saf file by chromosome 
 #author : Q. Rougemont
 
@@ -56,7 +56,7 @@ if [ -f ${pop} ]; then
     continue
 fi
 
-ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 / 2}' )
+ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 * 0.6}' )
 
 #RUN ANGSD
 echo "running ANGSD now "

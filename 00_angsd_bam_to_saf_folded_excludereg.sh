@@ -35,7 +35,7 @@ else
 fi
 
 #ARGUEMNTS
-ref=/net/cn-1/mnt/SCRATCH/quentin/quentin/03-genome_placed/ICSASG_v2.placed.fa #$1
+ref="you_genome.fasta" #$must be indexed
 bamlistlist="bamlist.list"
 #check if it exists:
 bamlist=$(cat ${bamlistlist})
@@ -57,7 +57,7 @@ pop=${bamlist%%.*}
 if [ -f ${pop} ]; then
     continue
 fi
-ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 / 2}' )
+ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 * 0.6}' )
 #RUN ANGSD
 echo "running ANGSD now "
 if [ $FOLDED=="FOLDED" ];
