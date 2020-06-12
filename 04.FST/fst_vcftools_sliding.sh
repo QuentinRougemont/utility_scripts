@@ -24,7 +24,7 @@ fi
 #echo $input
 if [ ! -d "$POP_MAP" ]
 then 
-    echo "warningr no population map folder find"
+    echo "warning no population map folder find"
     echo "I'll try to extract the info assuming individuals name in the vcf are as follow:"
     echo "pop1_01 pop1_02 pop2_01 pop2_02"
 fi
