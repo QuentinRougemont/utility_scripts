@@ -12,28 +12,30 @@
 #SBATCH --mem=10G
 
 module load angsd
-#date : 01-04-20
+#date : 26-11-19
 #purpose: script to create saf file by chromosome 
 #author : Q. Rougemont
 
-if [ $# -ne 3 ]; then
-    echo "USAGE: $0 ChrName outfolderName foldedStatus"
+if [ $# -ne 4 ]; then
+    echo "USAGE: $0 ChrName outfolderName foldedStatus REGION"
     echo "Expecting the following values on the command line, in that order"
     echo "Name of the chromosome"
     echo "name of output folder"
     echo "a string either "FOLDED/UNFOLDED" specifying whether the SAF should be folded or not"
+    echo "region specifying [chr]:[start-stop]"
     exit 1
 else 
     CHROMO=$1
     OUTFOLDER=$2 #folder where final sfs will appear
     FOLDED=$3    
+    REGION=$4
     echo "chromosome name is $CHROMO"
     echo "Output folder name is $OUTFOLDER"
     echo "the SAF will be $FOLDED"
 fi
 
 #ARGUEMNTS
-ref=your_genome.fasta
+ref="you_genome.fasta" #$must be indexed
 bamlistlist="bamlist.list"
 #check if it exists:
 bamlist=$(cat ${bamlistlist})
@@ -55,12 +57,10 @@ pop=${bamlist%%.*}
 if [ -f ${pop} ]; then
     continue
 fi
-
-ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 * 0.6}' )
-
+ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 * 0.9}' )
 #RUN ANGSD
 echo "running ANGSD now "
-if [[ $FOLDED == "FOLDED" ]];
+if [ $FOLDED=="FOLDED" ];
 then
    echo "running ANGSD with $FOLDED version"
    angsd -b ${bamlist} -gl 1 \
@@ -68,9 +68,9 @@ then
 	-out ${OUTFOLDER}/${pop}.${CHROMO} \
 	-dosaf 1 \
 	-remove_bads 1 -only_proper_pairs 1 -trim 0 \
-	-minInd ${ind} \
-	-r ${CHROMO} \
-	-doCounts 1 -setMinDepth 4 -setMaxDepth 400 \
+	-minInd ${ind}  \
+	-rf ${REGION} \
+	-doCounts 1 -setMinDepth 40 -setMaxDepth 400 \
 	-minMapQ 30 \
 	-minQ 20 \
 	-baq 1 -C 50\
@@ -87,9 +87,9 @@ else
 	-out ${OUTFOLDER}/${pop}.${CHROMO} \
 	-dosaf 1 \
 	-remove_bads 1 -only_proper_pairs 1 -trim 0 \
-	-minInd ${ind} \
+	-minInd ${ind}  \
 	-r ${CHROMO} \
-	-doCounts 1 -setMinDepth 4 -setMaxDepth 400\
+	-doCounts 1 -setMinDepth 40 -setMaxDepth 400 \
 	-minMapQ 30 \
 	-minQ 20 \
 	-baq 1 -C 50\
