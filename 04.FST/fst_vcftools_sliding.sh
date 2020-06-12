@@ -9,7 +9,7 @@ else
     input=$1
     window=$2
     echo "vcf file is : ${input}"
-    echo "windowsize is :${windw}"
+    echo "windowsize is :${window}"
 fi
 
 if file --mime-type "$input" | grep -q gzip$; then
