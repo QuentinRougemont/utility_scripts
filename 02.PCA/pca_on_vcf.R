@@ -2,7 +2,7 @@
 #DATE: 10-05-18 
 #PURPOSE: script to perform PCA on vcffiles
 #AUTHOR: Q. Rougemont
-#INPUT: vcf file (compressed or not) , strata file
+#INPUT: vcf file (compressed or not) , strata file in the form "ind"\t"pop"
 
 ## common checks
 if("dplyr" %in% rownames(installed.packages()) == FALSE)
@@ -15,9 +15,13 @@ if("adegenet" %in% rownames(installed.packages()) == FALSE)
 {install.packages("adegenet", repos="https://cloud.r-project.org") }
 if("factoextra" %in% rownames(installed.packages()) == FALSE)
 {install.packages("factoextra", repos="https://cloud.r-project.org") }
+if("vegan" %in% rownames(installed.packages()) == FALSE)
+{install.packages("vegan", repos="https://cloud.r-project.org") }
+if("ggsci" %in% rownames(installed.packages()) == FALSE)
+{install.packages("ggsci", repos="https://cloud.r-project.org") }
 
 ## load libs
-libs <- c('dplyr','vcfR','ade4','adegenet', 'factoextra')
+libs <- c('dplyr','vcfR','ade4','adegenet', 'factoextra', 'vegan', 'ggsci')
 invisible(lapply(libs, library, character.only = TRUE))
 
 ## load and transform data
@@ -79,4 +83,34 @@ p <- p + scale_color_brewer(palette="Dark2") +
 
 pdf(file="pca_from_vcffile.pdf")
 p
+dev.off()
+
+#### change display: 
+#### Si moins de 20 grps:
+p <- fviz_pca_ind(pca1,axes = c(1,2), label="none", habillage=strata$POP,
+                  addEllipses=F, ellipse.level=0.95)
+p <- p + scale_color_igv() + theme_minimal()
+pdf(file="pca_from_vcffile_axe12_v2.pdf")
+p
+dev.off()
+
+#### with text:
+
+p <- fviz_pca_ind(pca1, label="none", pointsize = 0.0) +
+      geom_text(aes(label=strata$POP, colour=factor(strata$POP)),
+      size = 2 )
+p <- p + scale_color_igv() + theme_minimal()
+pdf(file="pca_from_vcffile_v9.pdf")
+p
+dev.off()
+
+#without prior on pop:
+pdf(file="pca.full.1_2.pdf", 12,12)
+colorplot(pca1$li[c(1,2)],
+        pca1$li,
+        transp=TRUE,
+        cex=3,
+        xlab="PC 1",
+        ylab="PC 2")
+abline(v=0,h=0,col="grey", lty=2)
 dev.off()
