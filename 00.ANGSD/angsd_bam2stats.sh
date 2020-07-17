@@ -7,8 +7,8 @@
 ##SBATCH -p small
 ##SBATCH --mail-type=FAIL
 ##SBATCH --mail-user=YOUREMAIL
-#SBATCH --time=30:00:00
-#SBATCH --mem=04G
+#SBATCH --time=20:00:00
+#SBATCH --mem=08G
 module load angsd
 
 if [ $# -ne 2 ]; then
@@ -38,7 +38,7 @@ fi
 nt=8
 
 #ind and depth filtering 
-ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 * 0.99 }' )
+ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 * 0.999 }' )
 maxdp=$(awk -v var="$ind" 'BEGIN {printf "%3.0f\n", var * 9}' )
 mindp=$(awk -v var="$ind" 'BEGIN {printf "%3.0f\n", var * 4}' )
 
@@ -71,6 +71,9 @@ echo "running ANGSD now "
 	-P ${nt} \
 	-doHWE 1 \
         -doMajorMinor 1 -doMaf 1 -dosnpstat 1 -doPost 2 -doGeno 11
-	#-minHWEpval 1e-4 \
-	#-domajorminor 1 
+
+
+size=1200
+zcat 01.STAT/"$pop"."$chromo".snpStat.gz |awk -v var="$size" '$2%var<100 || NR==100 {print}' | grep -v "Chr"|  cut -f 1,2 > "$POP"."$CHR".1200
+angsd sites index "$pop"."$chromo".$size
 

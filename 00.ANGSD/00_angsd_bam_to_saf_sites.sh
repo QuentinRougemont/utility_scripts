@@ -1,33 +1,36 @@
 #!/bin/bash
 #SBATCH --job-name="angsd"
 #SBATCH -o log_%j
+##SBATCH -c 8
 #SBATCH --ntasks=8             # 1 core(CPU)
 #SBATCH --nodes=1                # Use 1 node
 #SBATCH --partition=smallmem
 ##SBATCH -p small
-#SBATCH --time=30:00:00
-#SBATCH --mem=12G
+##SBATCH --mail-type=FAIL
+##SBATCH --mail-user=YOUREMAIL
+#SBATCH --time=18:00:00
+#SBATCH --mem=06G
 
 module load angsd
 #date : 26-11-19
-#purpose: script to compute depth by chromosome 
+#purpose: script to create saf file by chromosome subsetting reggion 
 #author : Q. Rougemont
-
-if [ $# -ne 2 ]; then
-    echo "USAGE: $0 ChrName outfolderName "
+if [ $# -ne 3 ]; then
+    echo "USAGE: $0 ChrName outfolderName Sites"
     echo "Expecting the following values on the command line, in that order"
     echo "Name of the chromosome"
     echo "name of output folder"
+    echo "sites specifying [chr]\t[pos]"
     exit 1
 else 
     CHROMO=$1
     OUTFOLDER=$2 #folder where final sfs will appear
+    REGION=$3
     echo "chromosome name is $CHROMO"
-    echo "Output folder name is $OUTFOLDER"
+    echo "Sites file is "$REGION" "
 fi
-
-#ARGUEMNTS
-ref="your_fasta.fasta" #$1
+ref=reference.fa.gz
+anc=$ref
 bamlistlist="bamlist.list"
 #check if it exists:
 bamlist=$(cat ${bamlistlist})
@@ -37,9 +40,6 @@ if [ ! -f ${bamlist} ]; then
 fi
  
 nt=8
-ind=$( wc -l ${bamlist} |awk '{print $1 }' )
-maxdp=$(awk -v var="$ind" 'BEGIN {printf "%3.0f\n", var * 19}' )
-
 if [ ! -d "$OUTFOLDER"  ];
 then 
  echo "creating output dir"
@@ -52,18 +52,19 @@ if [ -f ${pop} ]; then
 fi
 
 #RUN ANGSD
-echo "running ANGSD now "
-   echo "running ANGSD with $FOLDED version"
-   angsd -b ${bamlist}  \
-	-ref ${ref} \
+angsd -b ${bamlist} -gl 1 \
+	-dosaf 1 \
+	-anc $anc \
+	-ref $ref \
 	-out ${OUTFOLDER}/${pop}.${CHROMO} \
-	-remove_bads 1 -only_proper_pairs 1 -trim 0 \
-	-minInd $ind\
+	-r $CHROMO \
+	-sites ${REGION} \
+	-P ${nt}
+
+INFOLDER=$OUTFOLDER
+samples1=($(ls ${INFOLDER}/*.${CHROMO}.saf.idx))
+
+#construct 1D SFS
+realSFS "$samples1" \
 	-r ${CHROMO} \
-	-doCounts 1 -doDepth 1 -MaxDepth  $maxdp \
-	-doQsDist 1 \
-	-minMapQ 30 \
-	-minQ 20 \
-	-baq 1 -C 50\
-	-uniqueOnly 1 \
-	-P ${nt} 
+	-P $nt   > "$OUTFOLDER"/${pop}.${CHROMO}.1dsfs 
