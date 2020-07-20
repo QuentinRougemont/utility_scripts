@@ -73,7 +73,9 @@ echo "running ANGSD now "
         -doMajorMinor 1 -doMaf 1 -dosnpstat 1 -doPost 2 -doGeno 11
 
 
-size=1200
-zcat 01.STAT/"$pop"."$chromo".snpStat.gz |awk -v var="$size" '$2%var<100 || NR==100 {print}' | grep -v "Chr"|  cut -f 1,2 > "$POP"."$CHR".1200
-angsd sites index "$pop"."$chromo".$size
+size=0
+#zcat 01.STAT/"$pop"."$CHROMO".snpStat.gz |awk -v var="$size" '$2%var<100 || NR==100 {print}' | grep -v "Chr"|  cut -f 1,2 > "$pop"."$CHROMO".$size
+zcat 01.STAT/"$pop"."$CHROMO".snpStat.gz | grep -v "Chr"|  cut -f 1,2 > "$pop"."$CHROMO".$size
+
+angsd sites index "$pop"."$CHROMO".$size
 
