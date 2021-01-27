@@ -26,6 +26,6 @@ for i in ${bam[@]}
 do
     input=$(basename $i )
     samtools view -F 0x4 "$i" |\
-     wc -l |awk -v var=$i '{print var, $1 }' >> 07-stats/mapped_read_"$input".txt; 
+     wc -l |awk -v var=$i '{print var, $1 }' >> $OUTFOLDER/mapped_read_"$input".txt; 
 done  
 
