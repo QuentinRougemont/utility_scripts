@@ -39,8 +39,11 @@ pdf(file="pca_on_freq_BC_with_CU.pdf")
 p
 dev.off()
 
-p <- fviz_pca_ind(pca1, label="none", habillage=cu2$CU,
-             addEllipses=TRUE, ellipse.level=0.95)
+p <- fviz_pca_ind(pca1, 
+    label="none", 
+    habillage=cu2$CU,
+    addEllipses=TRUE, 
+    ellipse.level=0.95)
 p <- p + scale_color_brewer(palette="Dark2") +
      theme_minimal()
 
