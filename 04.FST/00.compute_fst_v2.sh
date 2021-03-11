@@ -18,8 +18,8 @@ outfolder="00.fst_vcftools"
 mkdir "$outfolder"
 
 #fst vrom vcftools
-for i in $(echo "$pop_folder"/* |sed 's/$pop_folder\///g' ) ; do 
-    for j in  $(echo "$pop_folder"/* |sed 's/$pop_folder\///g') ; 
+for i in $(echo "$pop_folder"/* |sed "s/$pop_folder\///g" ) ; do 
+    for j in  $(echo "$pop_folder"/* |sed "s/$pop_folder\///g") ; 
     do
             if [ "$i" != "$j" ] ; then
                 if [[ "$i" > "$j" ]] ; then 
