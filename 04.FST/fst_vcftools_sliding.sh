@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ $# -ne 1 2 ]; then
+if [ $# -ne 2 ]; then
     echo "USAGE: $0 vcfile windowsize "
     echo "Expecting a vcf file as input"
     echo "size of the window"
@@ -30,13 +30,13 @@ then
 fi
 
 ####SOME USEFUL FUNCTION ###################################################
-function popvcf () { zcat "$input" |grep "CHR" |cut -f 10- |\
+function popvcf () { zcat "$input" |grep "^#CHROM" |cut -f 10- |\
     perl -pe 's/\t/\n/g' |\
     cut -d "_" -f 1 |\
     sort |\
     uniq > "list_pop" ; }
 
-function listind () { zcat "$input" |grep "CHR" |\
+function listind () { zcat "$input" |grep "^#CHROM" |\
     cut -f 10- |\
     perl -pe 's/\t/\n/g' | \
               sed 's/_/\t/g' | awk '{print $1"_"$2}' > "list_ind"; }
@@ -65,8 +65,8 @@ do
                  vcftools --gzvcf $input \
 			 --weir-fst-pop POP_MAP/pop.$i\
 			 --weir-fst-pop POP_MAP/pop.$j\
-			 --fst-window-size $windows\
-			 --window-pi-step $window\
+			 --fst-window-size $window\
+			 --fst-window-step $window\
 			 --out fst_file/fst."$i".vs."$j"
             fi
         fi
