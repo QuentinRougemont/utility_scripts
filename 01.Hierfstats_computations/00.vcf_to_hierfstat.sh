@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ulimit -n 3000
-
+#assumes individuals names are as follows "POP_ID"
 INPUT=$1 #name of input_file
 if [[ -z "$INPUT" ]]
 then
