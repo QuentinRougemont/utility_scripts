@@ -29,7 +29,14 @@ else
     echo "chromosome name is $CHROMO"
     echo "Sites file is "$REGION" "
 fi
-ref=reference.fa.gz
+
+#### FASTA FILE #############
+ref="your.fasta.fa"
+if [[ ! -f "$ref".fai ]]; then
+    echo "indexing file"
+    samtools faidx $ref
+fi
+#### OTHER ARGUMENTS: #######
 anc=$ref
 bamlistlist="bamlist.list"
 #check if it exists:
@@ -39,7 +46,7 @@ if [ ! -f ${bamlist} ]; then
    continue
 fi
  
-nt=8
+nt=8 #number of threads
 if [ ! -d "$OUTFOLDER"  ];
 then 
  echo "creating output dir"

@@ -32,8 +32,14 @@ else
     echo "the SAF will be $FOLDED"
 fi
 
-#ARGUEMNTS
-ref=your_genome.fasta
+#### FASTA FILE #############
+ref="your.fasta.fa"
+if [[ ! -f "$ref".fai ]]; then
+    echo "indexing file"
+    samtools faidx $ref
+fi
+
+#### OTHER ARGUMENTS: #######
 bamlistlist="bamlist.list"
 #check if it exists:
 bamlist=$(cat ${bamlistlist})
@@ -42,7 +48,7 @@ if [ ! -f ${bamlist} ]; then
    continue
 fi
  
-nt=16
+nt=16 #number of threads
 
 #FOLDER
 if [ ! -d "$OUTFOLDER"  ];

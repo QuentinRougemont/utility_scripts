@@ -31,8 +31,14 @@ else
     echo "the SAF will be $FOLDED"
 fi
 
-#ARGUEMNTS
-ref="your_genome_fasta" #$1
+#### FASTA FILE #############
+ref="your.fasta.fa"
+if [[ ! -f "$ref".fai ]]; then
+    echo "indexing file"
+    samtools faidx $ref
+fi
+
+#### OTHER ARGUMENTS: #######
 bamlistlist="bamlist.list"
 #check if it exists:
 bamlist=$(cat ${bamlistlist})
@@ -41,7 +47,7 @@ if [ ! -f ${bamlist} ]; then
    continue
 fi
  
-nt=8
+nt=8 #number of threads
 
 ind=$( wc -l ${bamlist} |awk '{printf "%3.0f\n", $1 * 0.90 }' )
 maxdp=$(awk -v var="$ind" 'BEGIN {printf "%3.0f\n", var * 10}' ) #value of 10 = meanDP+1*SD

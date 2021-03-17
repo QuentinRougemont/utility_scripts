@@ -34,8 +34,7 @@ else
 fi
 
 #ARGUEMNTS
-ref=your_genome.fasta #should be index (samtools faidx)
-nt=8
+nt=8 #number of threads
 
 samples1=($(ls ${INFOLDER1}/*.${CHROMO}.saf.idx))
 if [ ${#samples1[@]} -eq 0 ]; then

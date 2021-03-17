@@ -37,8 +37,14 @@ else
     echo "the SAF will be $FOLDED"
 fi
 
-#ARGUMENTS
-ref=/mnt/SCRATCH/quentin/quentin/03-genome_placed/ICSASG_v2.placed.fa 
+#### FASTA FILE #############
+ref="your.fasta.fa"
+if [[ ! -f "$ref".fai ]]; then
+    echo "indexing file"
+    samtools faidx $ref
+fi
+
+#### OTHER ARGUMENTS: #######
 if [ ! -d "$OUTFOLDER" ]
 then 
     echo "creating out-dir"

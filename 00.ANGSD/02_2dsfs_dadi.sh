@@ -40,10 +40,17 @@ else
 fi
 
 #ARGUEMNTS
-ref=/mnt/SCRATCH/quentin/quentin/03-genome_placed/ICSASG_v2.placed.fa #$1
+#### FASTA FILE #############
+ref="your.fasta.fa"
+if [[ ! -f "$ref".fai ]]; then
+    echo "indexing file"
+    samtools faidx $ref
+fi
+
+#### OTHER ARGUMENTS: #######
 anc=/net/cn-1/mnt/SCRATCH/quentin/quentin/00.new/coho_rainbow_chinook.fasta.fa.gz
 
-nt=8
+nt=8 number of threads
 
 samples1=($(ls ${INFOLDER1}/*.${CHROMO}.saf.idx))
 if [ ${#samples1[@]} -eq 0 ]; then
