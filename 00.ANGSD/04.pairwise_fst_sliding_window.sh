@@ -22,9 +22,6 @@ else
     echo "Output folder name is $OUTFOLDER"
 fi
 
-#ARGUEMNTS
-windows=100000 #size of the windows. Set according to the size you want
-
 #### FASTA FILE #########
 ref="your.fasta.fa"
 if [[ ! -f "$ref".fai ]]; then
@@ -32,7 +29,12 @@ if [[ ! -f "$ref".fai ]]; then
     samtools faidx $ref
 fi
 
-nt=8
+
+##### OTHER ARGUMENTS #####
+windows=100000 #size of the windows. Set according to the size you want
+
+nt=8 #number of threads
+
 samples1=($(ls ${INFOLDER1}/*.${CHROMO}.saf.idx))
 if [ ${#samples1[@]} -eq 0 ]; then
 	echo 'No "saf" files found.'
@@ -67,4 +69,4 @@ realSFS fst stats2 \
 	"${OUTFOLDER}"/all_${pop1}_${pop2}.${CHROMO}.pbs100.fst.idx \
 	-win  "$windows"\
 	-step "$windows"\
-	-whichFST 1 > "$OUTFOLDER"/all_${pop1}_${pop2}.${CHROMO}.pbs.100.txt
+	-whichFST 1 > "$OUTFOLDER"/all_${pop1}_${pop2}.${CHROMO}.pbs.$windows.txt
