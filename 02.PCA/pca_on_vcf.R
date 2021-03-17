@@ -1,8 +1,17 @@
+#!/usr/bin/env Rscript
 
 #DATE: 10-05-18
 #PURPOSE: script to perform PCA on vcffiles
 #AUTHOR: Q. Rougemont
 #INPUT: vcf file (compressed or not) , strata file in the form "ind"\t"pop"
+
+argv <- commandArgs(T)
+
+if (argv[1]=="-h" || length(argv)==0){
+cat("run as:\n./pca_on_vcf.R vcf_file \n" )
+}else{
+
+vcf <- argv[1] #vcf_file
 
 ## common checks
 if("dplyr" %in% rownames(installed.packages()) == FALSE)
@@ -28,6 +37,7 @@ invisible(lapply(libs, library, character.only = TRUE))
 strata <- read.table("strata.txt",h=T, sep = "\t")
 #change colnames in case they are not set appropriately
 colnames(strata) <- c("IND","POP")
+
 
 vcf<-read.vcfR(vcf, verbose=F)
 genpop <- vcfR2genind(vcf)
@@ -121,3 +131,5 @@ colorplot(pca1$li[c(1,2)],
     ylab="PC 2")
 abline(v=0,h=0,col="grey", lty=2)
 dev.off()
+
+}

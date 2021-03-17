@@ -1,8 +1,18 @@
+#!/usr/bin/env Rscript
 
 #DATE: 10-05-18 
 #PURPOSE: script to perform PCA on frequency files
 #AUTHOR: Q. Rougemont
 #INPUT: compressed strata.frq file as obtained after running plink 
+
+argv <- commandArgs(T)
+
+if (argv[1]=="-h" || length(argv)==0){
+cat("run as:\n./pca_on_freq.R strata.frq.gz \n" )
+}else{
+
+file <-argv[1] #vcf_file
+
 
 ## common checks
 if("dplyr" %in% rownames(installed.packages()) == FALSE)
@@ -20,7 +30,10 @@ if("factoextra" %in% rownames(installed.packages()) == FALSE)
 libs <- c('dplyr','resphape','ade4','data.table', 'factoextra')
 invisible(lapply(libs, library, character.only = TRUE))
 
-freq <- fread("zcat plink.frq.strat.gz")
+#freq <- fread("zcat plink.frq.strat.gz")
+file <- paste0("zcat ",file) 
+freq <- fread(file)
+
 freq2 <- dplyr::select(freq,SNP,CLST,MAF) 
 freq3 <- reshape2::dcast(freq2,SNP~CLST)
 freq3 <- freq3[,-1] 
@@ -51,4 +64,4 @@ pdf(file="pca_on_freq_with_ellipses2.pdf")
 p
 dev.off()
 
-#see more in script pca_on_vcf.R
+}
