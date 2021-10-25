@@ -17,8 +17,8 @@ file <-argv[1] #vcf_file
 ## common checks
 if("dplyr" %in% rownames(installed.packages()) == FALSE)
 {install.packages("dplyr", repos="https://cloud.r-project.org") }
-if("reshape" %in% rownames(installed.packages()) == FALSE)
-{install.packages("reshape", repos="https://cloud.r-project.org") }
+if("reshape2" %in% rownames(installed.packages()) == FALSE)
+{install.packages("reshape2", repos="https://cloud.r-project.org") }
 if("ade4" %in% rownames(installed.packages()) == FALSE)
 {install.packages("ade4", repos="https://cloud.r-project.org") }
 if("data.table" %in% rownames(installed.packages()) == FALSE)
@@ -27,7 +27,7 @@ if("factoextra" %in% rownames(installed.packages()) == FALSE)
 {install.packages("factoextra", repos="https://cloud.r-project.org") }
 
 ## load libs
-libs <- c('dplyr','resphape','ade4','data.table', 'factoextra')
+libs <- c('dplyr','reshape2','ade4','data.table', 'factoextra')
 invisible(lapply(libs, library, character.only = TRUE))
 
 #freq <- fread("zcat plink.frq.strat.gz")
@@ -40,6 +40,7 @@ freq3 <- freq3[,-1]
 freq4 <- t(freq3)
 pop <- unique(freq$CLST)   
 pop <- data.frame(pop)
+
 #reg <- read.table("strata.txt")
 #region <- unique(reg)
 
@@ -48,13 +49,13 @@ pca1 <- dudi.pca(freq4,scale=FALSE,scannf=FALSE)
 p <- fviz_pca_ind(pca1, label="none", habillage=pop$pop)
 #p <- fviz_pca_ind(pca1, label="none", habillage=region)
 
-pdf(file="pca_on_freq_BC_with_CU.pdf")
+pdf(file="pca_on_freq.pdf")
 p
 dev.off()
 
 p <- fviz_pca_ind(pca1, 
     label="none", 
-    habillage=cu2$CU,
+    habillage=pop$pop,
     addEllipses=TRUE, 
     ellipse.level=0.95)
 p <- p + scale_color_brewer(palette="Dark2") +
