@@ -1,15 +1,12 @@
 #!/bin/bash
 
-if [ $# -ne 1 2 ]; then
-    echo "USAGE: $0 vcfile windowsize "
+if [ $# -ne 1 ]; then
+    echo "USAGE: $0 vcfile"
     echo "Expecting a vcf file as input"
-    echo "size of the window"
     exit 1
 else
     input=$1
-    window=$2
     echo "vcf file is : ${input}"
-    echo "windowsize is :${windw}"
 fi
 
 if file --mime-type "$input" | grep -q gzip$; then
