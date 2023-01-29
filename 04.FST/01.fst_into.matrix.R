@@ -10,7 +10,10 @@ pop_map  <- argv[2]    #list des noms des pops, will be used as labels
 data = read.table(tablefst)
 pop_map = as.vector(read.table(pop_map))
 
-mat_correlation = matrix(999,nrow(pop_map),nrow(pop_map))
+mat_correlation = as.data.frame(matrix(999,nrow(pop_map),nrow(pop_map)))
+
+colnames(mat_correlation) = pop_map[,1]
+rownames(mat_correlation) = pop_map[,1]
 
 # buid the fst correlation matrix
 print("building the fst correlation matrix...")
@@ -27,8 +30,6 @@ for (i in 1:length(data[,1])){
   mat_correlation = round(mat_correlation, digits = 5)  
 }  
 
-colnames(mat_correlation) = pop_map[,1]
-rownames(mat_correlation) = pop_map[,1]
 
 write.table(mat_correlation, "table_pairwise_fst.reshaped.txt", quote=F)
 
