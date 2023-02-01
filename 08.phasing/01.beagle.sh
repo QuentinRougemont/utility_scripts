@@ -5,7 +5,7 @@ if [ $# -ne 1 ]; then
     exit 1
 else 
     vcf=$1
-    echo "vcffile will be $CHROMO"
+    echo "vcffile will be $vcf"
     echo 
     echo 
 fi
@@ -26,5 +26,5 @@ echo "*** Running beagle analysis with \"gt=\" argument ***"
 echo
 java -Xmx48g  -jar beagle.18May20.d20.jar \
         gt=$vcf \
-        out=out.chr1 \
+        out=${vcf%.vcf.gz}.phased.vcf.gz \
         impute=true nthreads=8 #window=10000 overlap=1000 gp=false 
