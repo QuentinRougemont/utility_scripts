@@ -12,12 +12,12 @@ while [ $# -gt 0 ] ; do
     -t | --target) Target="$2" ;echo "target genome is $Target" >&2;;
     -o | --output) out="$2" ;echo "output gff will be $out" >&2;;
     -h | --help) echo -e "Option required:
-	-gff \t the gff file to lift
-	-o/--output \t Output gff prefix
-	-r/--ref \t the reference genome associated with the gff
-	-t/--target\t the target genome
-	Optional: 
-	additional option can be commented/uncommented directly in the script" >&2;exit 1;;
+    -gff \t the gff file to lift
+    -o/--output \t Output gff prefix
+    -r/--ref \t the reference genome associated with the gff
+    -t/--target\t the target genome
+    Optional: 
+    additional option can be commented/uncommented directly in the script" >&2;exit 1;;
     esac
     shift
 done
@@ -69,14 +69,14 @@ m="-mm2_options=-a --end-bonus 5 --eqx -N 50 -p 0.5"  #to add
 pol="-polish"
 
 liftoff -g $GFF \
-	-o "$out".gff3 \
-	"$pol" \
-	"$m" \
-	"$u"  \
-	"$e"  \
-	-dir intermediate_files \
-	"$a" "$s" "$d" \
-	-infer_genes \
-	"$p" \
-	"$c" \
-	$Target $Ref
+    -o "$out".gff3 \
+    "$pol" \
+    "$m" \
+    "$u"  \
+    "$e"  \
+    -dir intermediate_files \
+    "$a" "$s" "$d" \
+    -infer_genes \
+    "$p" \
+    "$c" \
+    $Target $Ref
