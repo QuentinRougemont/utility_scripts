@@ -26,6 +26,26 @@ if [ -z "$GFF" ] || [ -z "$Ref" ] || [ -z "$Target" ] || [ -z $out ]; then
         echo >&2 "Fatal error: GFF, Ref genome, Target genome and output are not defined"
 exit 2
 fi
+
+## check if package is installed
+pip3 show liftoff 1>/dev/null 
+if [ $? == 0 ]; then
+   echo "Package is Installed" 
+else
+   echo "Package Not Installed\n" 
+   echo "Will try an automatic installation\n"
+   pip3 install --upgrade liftoff
+   echo "Will install minimap in the current directory"
+   git clone https://github.com/lh3/minimap2
+   cd minimap2 && make
+   #else try with conda so that minimap2 will be installed
+   #alternatively:
+   #conda install -c bioconda liftoff
+   echo "packages have been installed\nplease add minimap to your .bashrc before using this script"
+   exit 2
+fi
+
+
 ## ------------------- general input -----------------------------------------##
 NCPU=8
 echo "-------------------"
