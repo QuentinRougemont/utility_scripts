@@ -33,10 +33,15 @@ write.table(t(rbind(beta1$betaiovl,beta1$ci)),"beta_iovl_ci", col.names=c("beta"
 
 #individual ancestry coeff
 ind.coan<-betas(cbind(1:nrow(data),data[,-1]),betaij=T)
-image(1:nrow(data),1:nrow(data),ind.coan,xlab="Inds",ylab="Inds")
-write.table(ind.coan, "ind.coan", quote=F)
+
+pdf(file="ind.coan.pdf", 12,12)
+image(1:nrow(data),1:nrow(data),ind.coan$betaij,xlab="Inds",ylab="Inds")
+dev.off()
+
+write.table(ind.coan$betaij, "ind.coan", quote=F)
+
 #extracting individual inbreeding coefficients
-ind.inb<-(diag(ind.coan)*2-1)
+ind.inb<-(diag(ind.coan$betaij)*2-1)
 hist(ind.inb,breaks=seq(-1,1,0.05),xlab="Individual inbreeding coeeficients");abline(v=c(0,0.3,0.7),col="red",lwd=2)
 
 pdf(file="hist")
