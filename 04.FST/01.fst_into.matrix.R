@@ -38,9 +38,9 @@ heat.1 <- data
 colnames(heat.1) <-  c("pop1","pop2","fst")
 
 # Download libraries
-if("ggplot2" %in% rownames(installed.packages()) == FALSE) {install.packages("ggplot2"), repos = https://cloud.r-project.org }
-if("ggdendro" %in% rownames(installed.packages()) == FALSE) {install.packages("ggdendro"), repos = https://cloud.r-project.org }
-if("gridExtra" %in% rownames(installed.packages()) == FALSE) {install.packages("gridExtra"), repos = https://cloud.r-project.org }
+if("ggplot2" %in% rownames(installed.packages()) == FALSE) {install.packages("ggplot2", repos = "https://cloud.r-project.org"     ) }
+if("ggdendro" %in% rownames(installed.packages()) == FALSE) {install.packages("ggdendro", repos = "https://cloud.r-project.org"   ) }
+if("gridExtra" %in% rownames(installed.packages()) == FALSE) {install.packages("gridExtra", repos = "https://cloud.r-project.org" ) }
 
 library(ggplot2)
 library(ggdendro)
